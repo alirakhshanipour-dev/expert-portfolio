@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Form</title>
+    <style>
+        .section {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Profile Form</h1>
+
+<form action="/submit-profile" method="post">
+    <!-- Personal Information -->
+    <label for="first_name">First Name:</label>
+    <input type="text" id="first_name" name="first_name" required maxlength="255"><br>
+
+    <label for="last_name">Last Name:</label>
+    <input type="text" id="last_name" name="last_name" required maxlength="255"><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required maxlength="255"><br>
+
+    <label for="phone">Phone:</label>
+    <input type="tel" id="phone" name="phone" required maxlength="20"><br>
+
+    <!-- Skills -->
+    <div class="section" id="skills-section">
+        <h2>Skills</h2>
+        <div class="skill-entry">
+            <label for="skill_title">Skill Title:</label>
+            <input type="text" name="skills[][title]" required maxlength="255">
+            
+            <label for="skill_level">Skill Level:</label>
+            <input type="number" name="skills[][level]" required>
+            
+            <label for="skill_icon">Skill Icon:</label>
+            <input type="text" name="skills[][icon]" maxlength="255">
+            
+            <label for="skill_description">Skill Description:</label>
+            <textarea name="skills[][description]" maxlength="1000"></textarea>
+        </div>
+        <button type="button" onclick="addSkill()">Add Skill</button>
+    </div>
+
+    <!-- Projects -->
+    <div class="section" id="projects-section">
+        <!-- Add similar fields for projects -->
+        <h2>Projects</h2>
+        <div class="project-entry">
+            <label for="project_title">Project Title:</label>
+            <input type="text" name="projects[][title]" required maxlength="255">
+            
+            <label for="project_url">Project URL:</label>
+            <input type="text" name="projects[][url]" maxlength="255">
+            
+            <label for="project_features">Project Features:</label>
+            <input type="text" name="projects[][features]" required maxlength="1000">
+        </div>
+        <button type="button" onclick="addProject()">Add Project</button>
+    </div>
+
+    <!-- Educations -->
+    <!-- Add similar fields for educations -->
+    
+    <!-- Experiences -->
+    <!-- Add similar fields for experiences -->
+
+    <input type="submit" value="Submit">
+</form>
+
+<script>
+    function addSkill() {
+        const skillsSection = document.getElementById('skills-section');
+        const skillEntry = document.querySelector('.skill-entry').cloneNode(true);
+        skillsSection.appendChild(skillEntry);
+    }
+
+    function addProject() {
+        const projectsSection = document.getElementById('projects-section');
+        const projectEntry = document.querySelector('.project-entry').cloneNode(true);
+        projectsSection.appendChild(projectEntry);
+    }
+</script>
+
+</body>
+</html>
