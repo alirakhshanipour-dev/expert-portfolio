@@ -1,5 +1,7 @@
 const autoBind = require("auto-bind")
 const ProfileModel = require("./profile.model.js")
+const createHttpError = require("http-errors")
+const ProfileMessages = require("./messages/messages.js")
 class ProfileService {
     #model
     constructor() {
@@ -12,11 +14,58 @@ class ProfileService {
         return profile
     }
 
-    // update profile
-    async update(optionDto) { }
-
     // get profile
-    async get() { }
+    async get() {
+        const profile = (await this.#model.find({}))
+        if (!profile) throw new createHttpError.NotFound(ProfileMessages.NOT_FOUND)
+        return profile
+    }
+
+    // update skills methods start
+    async add_skill(optionDto) {
+        await this.#model.updateOne({
+            first_name: "ali"
+        }, {
+            $push: {
+                skills: optionDto
+            }
+        })
+        return true
+    }
+    async add_education(optionDto) {
+        await this.#model.updateOne({
+            first_name: "ali"
+        }, {
+            $push: {
+                educations: optionDto
+            }
+        })
+        return true
+    }
+
+    async add_experience(optionDto) {
+        await this.#model.updateOne({
+            first_name: "ali"
+        }, {
+            $push: {
+                experiences: optionDto
+            }
+        })
+        return true
+    }
+
+    async add_project(optionDto) {
+        await this.#model.updateOne({
+            first_name: "ali"
+        }, {
+            $push: {
+                projects: optionDto
+            }
+        })
+        return true
+    }
+    // update skills methods end
+
 
 }
 

@@ -1,6 +1,7 @@
 const autoBind = require("auto-bind")
 const profileService = require("./profile.service.js")
 const ProfileMessages = require("./messages/messages.js")
+const { StatusCodes } = require("http-status-codes")
 
 class ProfileController {
     #service
@@ -48,20 +49,66 @@ class ProfileController {
     // get profile
     async get(req, res, next) {
         try {
-
+            const profile = await this.#service.get()
+            return res.status(StatusCodes.OK).json({
+                profile
+            })
         } catch (error) {
             next(error)
         }
     }
 
-    // update profile
-    async update(req, res, next) {
+    // update profile methods start
+
+    async add_skill(req, res, next) {
         try {
-
+            const skill = req.body
+            await this.#service.add_skill(skill)
+            res.status(StatusCodes.OK).json({
+                message: ProfileMessages.ADD_SKILL
+            })
         } catch (error) {
             next(error)
         }
     }
+
+    async add_education(req, res, next) {
+        try {
+            const education = req.body
+            await this.#service.add_education(education)
+            res.status(StatusCodes.OK).json({
+                message: ProfileMessages.ADD_EDUCATION
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async add_experience(req, res, next) {
+        try {
+            const experience = req.body
+            await this.#service.add_experience(experience)
+            res.status(StatusCodes.OK).json({
+                message: ProfileMessages.ADD_EXPERIENCE
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async add_project(req, res, next) {
+        try {
+            const project = req.body
+            await this.#service.add_project(project)
+            res.status(StatusCodes.OK).json({
+                message: ProfileMessages.ADD_PROJECT
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    // update profile methods end
 }
 
 module.exports = new ProfileController()

@@ -40,6 +40,7 @@ const ProfileSchema = new Schema(
         last_name: { type: String, required: true, maxlength: 255 },
         email: { type: String, required: true, maxlength: 255 },
         phone: { type: String, required: true, maxlength: 20 }, // Example: Maximum length set to 20 characters
+        image: { type: String, required: false },
         skills: [SkillSchema],
         projects: [ProjectSchema],
         educations: [EducationSchema],
