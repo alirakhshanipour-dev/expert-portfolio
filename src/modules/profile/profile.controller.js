@@ -23,6 +23,7 @@ class ProfileController {
                 projects,
                 educations,
                 experiences,
+                description
             } = req.body;
             const profile = await this.#service.create(
                 {
@@ -34,6 +35,7 @@ class ProfileController {
                     projects,
                     educations,
                     experiences,
+                    description,
                 }
             )
 
@@ -46,19 +48,35 @@ class ProfileController {
         }
     }
 
-    // get profile
+    // get profile start
     async get(req, res, next) {
         try {
             const profile = await this.#service.get()
-            return res.status(StatusCodes.OK).json({
-                profile
+            // return res.status(StatusCodes.OK).json({
+            //     profile
+            // })
+            const bodyContent = "./layouts/landing.ejs"
+            return res.render("main", { body: bodyContent, user: req.user })
+        } catch (error) {
+            next(error)
+        }
+    }
+    // get profile end
+
+
+    // update profile methods start
+
+    async update_profile(req, res, next) {
+        try {
+            const { first_name, last_name, email, phone } = req.body
+            await this.#service.update_profile({ first_name, last_name, email, phone })
+            res.status(StatusCodes.OK).json({
+                message: ProfileMessages.UPDATED
             })
         } catch (error) {
             next(error)
         }
     }
-
-    // update profile methods start
 
     async add_skill(req, res, next) {
         try {

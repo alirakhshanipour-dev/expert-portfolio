@@ -8,20 +8,42 @@ class ProfileService {
         autoBind(this)
         this.#model = ProfileModel
     }
+
+    //  -------------------------------------------------------------   
+
     // create profile
     async create(optionDto) {
+        console.log(optionDto);
         const profile = await this.#model.create(optionDto)
         return profile
     }
 
+    //  -------------------------------------------------------------   
+
     // get profile
     async get() {
-        const profile = (await this.#model.find({}))
+        const profile = (await this.#model.findOne({}))
         if (!profile) throw new createHttpError.NotFound(ProfileMessages.NOT_FOUND)
         return profile
     }
 
+    //  -------------------------------------------------------------
+
     // update skills methods start
+
+    async update_profile(optionDto) {
+        const profile = await this.#model.findOne({})
+        await profile.updateOne({
+            $set: {
+                first_name: optionDto.first_name,
+                last_name: optionDto.last_name,
+                email: optionDto.email,
+                phone: optionDto.phone,
+            }
+        })
+        return true
+    }
+
     async add_skill(optionDto) {
         await this.#model.updateOne({
             first_name: "ali"
@@ -32,6 +54,7 @@ class ProfileService {
         })
         return true
     }
+
     async add_education(optionDto) {
         await this.#model.updateOne({
             first_name: "ali"
@@ -64,6 +87,7 @@ class ProfileService {
         })
         return true
     }
+
     // update skills methods end
 
 
