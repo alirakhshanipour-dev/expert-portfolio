@@ -6,7 +6,11 @@ const allExceptionHandler = require("./src/exception/all-exeption.js")
 const { mainRouter } = require("./src/modules/app.routes.js")
 const viewEngineConfig = require("./src/config/viewEngineConfig.js")
 require("dotenv").config()
-
+const NODE_ENV = process.env.NODE_ENV
+const path = require("path")
+require("dotenv").config({
+    path: path.join(__dirname, `.ENV.${NODE_ENV}`)
+})
 const main = () => {
     // app configs section start
     const app = express()
@@ -17,7 +21,7 @@ const main = () => {
     // middlewares section start
     app.use(morgan("dev"))
     app.use(express.json())
-    app.use(express.static("public"))
+    app.use(express.static(path.join(__dirname + "/public")))
     app.use(express.urlencoded({ extended: true }))
     app.get("/", (req, res) => {
         res.redirect("/profile")
@@ -33,7 +37,7 @@ const main = () => {
     allExceptionHandler(app)
     // error handlers end
 
-    // -----------------------------------------
+    // ----------------------------------------- 
 
     // conncet to Databases section start
     new DatabaseConfig().connect_mongodb()
@@ -42,10 +46,10 @@ const main = () => {
     // -----------------------------------------
 
     // server section start
-    const PORT = process.env.PORT
-    app.listen(PORT, () => {
-        console.log(`--> server is running on http://127.0.0.1:${PORT}`);
-    })
+    const PORT = process.env.PORT || 2503
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Server is running on http://0.0.0.0:${PORT}`);
+    });
     // server section end
 
     // -----------------------------------------

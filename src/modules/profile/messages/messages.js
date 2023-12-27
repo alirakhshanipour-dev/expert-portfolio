@@ -5,7 +5,7 @@ const ProfileMessages = Object.freeze({
     ADD_SKILL: "skill added successfully",
     ADD_EDUCATION: "education added successfully",
     ADD_EXPERIENCE: "experience added successfully",
-    ADD_PROJECT: "experience added successfully",
+    ADD_PROJECT: "project added successfully",
 })
 
 module.exports = ProfileMessages

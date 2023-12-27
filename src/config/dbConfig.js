@@ -4,8 +4,8 @@ require("dotenv").config()
 
 class DatabaseConfig {
     connect_mongodb() {
-        const mongoDB = `mongodb://localhost:27017`;
-        mongoose.connect(mongoDB, { dbName: process.env.DB_NAME });
+        const mongoDB = `mongodb://root:KI4KUOTovRsP0A0esAptsaRv@el-capitan.liara.cloud:31387/express_portfolio?authSource=admin`;
+        mongoose.connect(mongoDB);
         //Get the default connection
         const db = mongoose.connection;
         //Bind connection to error event (to get notification of connection errors)

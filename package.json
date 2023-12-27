@@ -4,7 +4,7 @@
   "description": "this an expert portfolio",
   "main": "main.js",
   "scripts": {
-    "test": "nodemon node main.js"
+    "start": "node main"
   },
   "keywords": [
     "express",
@@ -15,14 +15,18 @@
   "license": "ISC",
   "dependencies": {
     "auto-bind": "^3.0.0",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-ejs-layouts": "^2.5.1",
     "http-errors": "^2.0.0",
     "http-status-codes": "^2.3.0",
+    "joi": "^17.11.0",
     "mongoose": "^8.0.3",
     "morgan": "^1.10.0",
-    "nodemon": "^3.0.2"
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.0.2",
+    "omit-empty": "^1.0.0"
   }
 }

@@ -1,17 +1,127 @@
- <main class="page contact-us-page">
-        <section class="clean-block clean-form dark">
-            <div class="container">
-                <div class="block-heading">
-                    <h2 class="text-info">Contact Us</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                </div>
-                <form>
-                    <div class="mb-3"><label class="form-label" for="name">Name</label><input class="form-control" type="text" id="name" name="name"></div>
-                    <div class="mb-3"><label class="form-label" for="subject">Subject</label><input class="form-control" type="text" id="subject" name="subject"></div>
-                    <div class="mb-3"><label class="form-label" for="email">Email</label><input class="form-control" type="email" id="email" name="email"></div>
-                    <div class="mb-3"><label class="form-label" for="message">Message</label><textarea class="form-control" id="message" name="message"></textarea></div>
-                    <div class="mb-3"><button class="btn btn-primary" type="submit">Send</button></div>
-                </form>
+<main class="page contact-us-page">
+    <section class="clean-block clean-form dark">
+        <div class="container">
+            <div class="block-heading text-center">
+                <h2 class="text-info">📬 Get in Touch!</h2>
+                <p>We'd love to hear from you! Whether you have questions, feedback, or just want to say hello, feel free to reach out to us using the contact form below.</p>
             </div>
-        </section>
-    </main>
+            <div class="row">
+                <!-- Left Section - User Data -->
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <img src="/assets/img/avatars/portfo.JPG" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Informations</h5>
+                                    <p class="card-text text-capitalize"><strong>Name: </strong><%= user.first_name %> <%= user.last_name %></p>
+                                    <p class="card-text text-capitalize"><strong>Email: </strong><%= user.email %></p>
+                                    <p class="card-text text-capitalize"><strong>Phone Number:</strong> (+98)<%= user.phone %></p>
+                                    <p class="card-text"><small class="text-muted">Mail Me For Your Projects</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section - Contact Form -->
+                <div class="col-md-6">
+                    <form class="rounded-4" action="/contact/send-message" method="post" id="contactForm">
+                        <div class="mb-3"><label class="form-label" for="name">Name</label><input class="form-control" type="text" id="name" name="name"></div>
+                        <div class="mb-3"><label class="form-label" for="subject">Subject</label><input class="form-control" type="text" id="subject" name="subject"></div>
+                        <div class="mb-3"><label class="form-label" for="email">Email</label><input class="form-control" type="email" id="email" name="email"></div>
+                        <div class="mb-3"><label class="form-label" for="message">Message</label><textarea class="form-control" id="message" name="message"></textarea></div>
+                        <div class="mb-3"><button class="btn btn-primary" type="submit">Send</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const contactForm = document.getElementById('contactForm');
+
+        contactForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Validate all required fields
+            const nameValue = document.getElementById('name').value.trim();
+            const subjectValue = document.getElementById('subject').value.trim();
+            const emailValue = document.getElementById('email').value.trim();
+            const messageValue = document.getElementById('message').value.trim();
+
+            if (nameValue === '' || subjectValue === '' || emailValue === '' || messageValue === '') {
+                // Show customized SweetAlert for validation error with a timer
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please fill in all required fields.',
+                    timer: 2500, // Set the timer to 2.5 seconds
+                    showConfirmButton: false, // Hide the "OK" button
+                    customClass: {
+                        title: 'text-danger',
+                        content: 'text-dark',
+                        popup: 'bg-light',
+                        confirmButton: 'btn btn-danger'
+                    }
+                });
+            } else {
+                // Continue with form submission
+                fetch(contactForm.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: nameValue,
+                        subject: subjectValue,
+                        email: emailValue,
+                        message: messageValue,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Show customized SweetAlert with the response message and a timer
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: data.message,
+                        timer: 2500, // Set the timer to 2.5 seconds
+                        showConfirmButton: false, // Hide the "OK" button
+                        customClass: {
+                            title: 'text-success',
+                            content: 'text-dark',
+                            popup: 'bg-light',
+                            confirmButton: 'btn btn-success'
+                        }
+                    });
+
+                    // Reset the form after successful submission
+                    contactForm.reset();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Show customized SweetAlert for server-side error with a timer
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Something went wrong. Please try again later.',
+                        timer: 2500, // Set the timer to 2.5 seconds
+                        showConfirmButton: false, // Hide the "OK" button
+                        customClass: {
+                            title: 'text-danger',
+                            content: 'text-dark',
+                            popup: 'bg-light',
+                            confirmButton: 'btn btn-danger'
+                        }
+                    });
+                });
+            }
+        });
+    });
+</script>

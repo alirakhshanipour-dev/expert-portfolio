@@ -23,7 +23,8 @@ class ProfileController {
                 projects,
                 educations,
                 experiences,
-                description
+                description,
+                image
             } = req.body;
             const profile = await this.#service.create(
                 {
@@ -36,6 +37,7 @@ class ProfileController {
                     educations,
                     experiences,
                     description,
+                    image
                 }
             )
 
@@ -51,10 +53,6 @@ class ProfileController {
     // get profile start
     async get(req, res, next) {
         try {
-            const profile = await this.#service.get()
-            // return res.status(StatusCodes.OK).json({
-            //     profile
-            // })
             const bodyContent = "./layouts/landing.ejs"
             return res.render("main", { body: bodyContent, user: req.user })
         } catch (error) {

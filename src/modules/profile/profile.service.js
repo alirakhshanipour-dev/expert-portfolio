@@ -2,6 +2,9 @@ const autoBind = require("auto-bind")
 const ProfileModel = require("./profile.model.js")
 const createHttpError = require("http-errors")
 const ProfileMessages = require("./messages/messages.js")
+const omitEmpty = require("omit-empty")
+const Joi = require("joi")
+const ProfileValidationSchema = require("./validations/profile.validation.js")
 class ProfileService {
     #model
     constructor() {
@@ -13,8 +16,8 @@ class ProfileService {
 
     // create profile
     async create(optionDto) {
-        console.log(optionDto);
-        const profile = await this.#model.create(optionDto)
+        const validataed_data = omitEmpty(Joi.attempt(optionDto, ProfileValidationSchema))
+        const profile = await this.#model.create(validataed_data)
         return profile
     }
 
@@ -78,9 +81,8 @@ class ProfileService {
     }
 
     async add_project(optionDto) {
-        await this.#model.updateOne({
-            first_name: "ali"
-        }, {
+        const profile = await this.#model.findOne({})
+        await profile.updateOne({
             $push: {
                 projects: optionDto
             }

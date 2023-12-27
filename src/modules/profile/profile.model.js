@@ -13,6 +13,7 @@ const ProjectSchema = new Schema({
     title: { type: String, required: true, maxlength: 255 },
     url: { type: String, required: false, maxlength: 255 },
     features: { type: String, required: true, maxlength: 1000 },
+    icon: { type: String, required: false },
 });
 
 // education schema
